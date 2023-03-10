@@ -2,7 +2,7 @@ from pydantic import BaseSettings
 
 
 class CommonSettings(BaseSettings):
-    APP_NAME: str = "Flash Card"
+    APP_NAME: str = "Flashcard"
     DEBUG_MODE: bool = False
 
 

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 from motor.motor_asyncio import AsyncIOMotorClient
 from config import settings
-from api import flash_card
+from api import flashcard
 
 app = FastAPI()
 
@@ -18,7 +18,7 @@ async def shutdown_db_client():
     app.mongodb_client.close()
 
 routers = [
-    flash_card.router,
+    flashcard.router,
 ]
 
 for router in routers:
