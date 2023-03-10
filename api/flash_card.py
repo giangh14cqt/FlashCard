@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 from py_object_id import PyObjectId
@@ -37,3 +37,8 @@ class UpdateFlashCard(BaseModel):
                 "back_side": "Hello",
             }
         }
+
+
+@router.get("/", response_description="List all flashcards", response_model=List[FlashCardModel])
+async def list_flash_cards():
+    pass
