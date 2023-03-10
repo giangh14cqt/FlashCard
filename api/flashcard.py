@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 from fastapi import APIRouter, Body, Request, HTTPException, status
 from pydantic import BaseModel, Field
 from fastapi.responses import JSONResponse
@@ -49,7 +49,16 @@ async def list_flashcards(request: Request):
     return flashcards
 
 
-@router.post("/flashcards", response_description="Create a flashcard", response_model=FlashcardModel)
+@router.get("/flashcards/{id}", response_description="Get a single flashcard")
+async def show_flashcards(id: str, request: Request):
+    if (flashcard := await request.app.mongodb["flashcards"].find_one({"_id": id})) is not None:
+        return flashcard
+
+    raise HTTPException(status_code=404, detail=f"Flashcard {id} not found")
+
+
+@router.post("/flashcards", response_description="Create a flashcard",
+             response_model=FlashcardModel)
 async def create_flashcard(request: Request, flashcard: FlashcardModel = Body(...)):
     flashcard = jsonable_encoder(flashcard)
     new_flashcard = await request.app.mongodb["flashcards"].insert_one(flashcard)
@@ -58,3 +67,15 @@ async def create_flashcard(request: Request, flashcard: FlashcardModel = Body(..
     )
 
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_flashcard)
+
+
+@router.put("flashcards", response_description="Update a flashcard")
+async def update_flashcard(id: str, request: Request, flashcard: UpdateFlashcard = Body(...)):
+    flashcard = {k: v for k, v in flashcard.dict().items() if v is not None}
+
+    if (
+        existing_flashcard := await request.app.mongodb["flashcards"].find_one({"_id": id})
+    ) is not None:
+        return existing_flashcard
+
+    raise HTTPException(status_code=404, detail=f"Flashcard {id} not found")
