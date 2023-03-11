@@ -1,3 +1,4 @@
+import os
 from pydantic import BaseSettings
 
 
@@ -11,12 +12,7 @@ class ServerSettings(BaseSettings):
     PORT: int = 8000
 
 
-class DatabaseSettings(BaseSettings):
-    DB_URL: str
-    DB_NAME: str
-
-
-class Settings(CommonSettings, ServerSettings, DatabaseSettings):
+class Settings(CommonSettings, ServerSettings):
     pass
 
 
