@@ -72,5 +72,6 @@ watchgod==0.6
 websockets==8.1
     # via uvicorn
 httpx
+requests
 # The following packages are considered to be unsafe in a requirements file:
 # pip

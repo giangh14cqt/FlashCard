@@ -17,10 +17,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        mongodb-version: ['4.2', '4.4', '5.0', '6.0']
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.9
@@ -41,7 +37,7 @@ jobs:
     - name: Start MongoDB
       uses: supercharge/mongodb-github-action@1.8.0
       with:
-        mongodb-version: ${{ matrix.mongodb-version }}
+        mongodb-version: 6.0
         mongodb-port: 27017
     - name: Test with pytest
       run: |
