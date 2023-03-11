@@ -2,14 +2,14 @@ import os
 from fastapi import FastAPI
 import uvicorn
 from motor.motor_asyncio import AsyncIOMotorClient
-from app.config import settings
-from app.api import flashcard, helloword
+from config import settings
+from api import flashcard, helloword
 
 app = FastAPI()
 
 
 @app.on_event("startup")
-async def startup_db_client():
+async def start_database():
     app.mongodb_client = AsyncIOMotorClient(os.environ["DB_URL"])
     app.mongodb = app.mongodb_client[os.environ["DB_NAME"]]
 
@@ -32,7 +32,7 @@ def main():
         "main:app",
         host=settings.HOST,
         reload=settings.DEBUG_MODE,
-        port=settings.PORT,
+        port=settings.PORT
     )
 
 
