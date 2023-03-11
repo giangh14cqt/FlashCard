@@ -17,6 +17,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+        DB_URL: ${{ secrets.DB_URL }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.9
