@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 from motor.motor_asyncio import AsyncIOMotorClient
 from config import settings
-from api import flashcard
+from api import flashcard, helloword
 
 app = FastAPI()
 
@@ -19,15 +19,21 @@ async def shutdown_db_client():
 
 routers = [
     flashcard.router,
+    helloword.router,
 ]
 
 for router in routers:
     app.include_router(router)
 
-if __name__ == "__main__":
+
+def main():
     uvicorn.run(
         "main:app",
         host=settings.HOST,
         reload=settings.DEBUG_MODE,
         port=settings.PORT,
     )
+
+
+if __name__ == "__main__":
+    main()
