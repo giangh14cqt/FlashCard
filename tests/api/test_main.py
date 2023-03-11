@@ -17,6 +17,10 @@ def test_main():
 
 
 def test_create_flashcard():
-    response = client.get("/flashcards")
-    assert response.status_code == 200
-    assert len(response.json()) == 3
+    response = client.post(
+        "/flashcards",
+        json={"front_side": "Xin chao", "back_side": "Hello"})
+    assert response.status_code == 201
+    obj = response.json()
+    assert obj["front_side"] == "Xin chao"
+    assert obj["back_side"] == "Hello"
