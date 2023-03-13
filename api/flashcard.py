@@ -75,6 +75,11 @@ async def create_flashcard(request: Request, flashcard: FlashcardModel = Body(..
 async def update_flashcard(id: str, request: Request, flashcard: UpdateFlashcard = Body(...)):
     flashcard = {k: v for k, v in flashcard.dict().items() if v is not None}
 
+    await request.app.mongodb["flashcards"].update_one(
+        {"_id": id},
+        {"$set": flashcard}
+    )
+
     if (
         existing_flashcard := await request.app.mongodb["flashcards"].find_one({"_id": id})
     ) is not None:
