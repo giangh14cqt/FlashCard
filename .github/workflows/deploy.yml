@@ -27,3 +27,4 @@ jobs:
         with:
           image: giangh14cqt/demo-app
           push: true
+          tags: giangh14cqt/demo-app:latest
